@@ -4,5 +4,5 @@ public enum lightState {
 	green,
 	amber,
 	red,
-
+	triggered,
 }

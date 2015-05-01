@@ -1,42 +1,51 @@
 package mp5;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 public class EW extends Thread implements subject {
-	protected lightState ewState;
+	
 	protected boolean carSensor;
+	protected ArrayList<Observer> TLS_System;
 	
 	public EW(){
-		ewState   = lightState.red;
-		carSensor = false;
-		
+		carSensor  = false;
+		TLS_System = new ArrayList<Observer>();
 	}
-	@Override
+
 	public void add(Observer o) {
-		// TODO Auto-generated method stub
-		
+		TLS_System.add(o);
 	}
 
-	@Override
+
 	public void remove(Observer o) {
-		// TODO Auto-generated method stub
+		int index = TLS_System.lastIndexOf(o);
 		
+		if(index>0)
+			TLS_System.remove(index);
 	}
 
-	@Override
-	public void notifyObserver() {
-		// TODO Auto-generated method stub
+	
+	public synchronized void notifyObserver() {
+		for(Observer o:TLS_System){
+			o.update(carSensor);
+		}
 		
 	}
 	
 	public void run(){
-		
-		
-	
+		while(true){
+			if(carSensor()==true){
+				//System.out.println("east-west sensor has been triggered");
+				notifyObserver();
+				carSensor(false);
+			}
+		}
 	}
 	
-	public void ewState(lightState newState){ ewState = newState;}
-	public void carSensor(boolean newState){ carSensor = newState;}
-	public lightState ewState(){return ewState;}
-	public boolean carSesnor(){return carSensor;}
+	public void carSensor(boolean newState){carSensor = newState;}
+	
+	public boolean carSensor(){return carSensor;}
 
 	
 	
