@@ -15,18 +15,24 @@ public class Client {
 	
 	public static void menu(int menuType){
 		if (menuType == 0){
+			System.out.println("-------------TLS Simulator------------");
 			System.out.println("A - Automated Simulator " );
 			System.out.println("U - User Simulator");
+			System.out.println("? - Display menu");
 			System.out.println("E - Exit");			
 		}
 		else if(menuType == 1){
+			System.out.println("-------------User Simulator------------");
 			System.out.println("C - Set off East-West car sensor" );
 			System.out.println("T - Get current time on traffic light");
+			System.out.println("? - Display menu");
 			System.out.println("E - Exit" );
 		}
 		
 		else if(menuType == 2){
+			System.out.println("-------------Automated Simulator------------");
 			System.out.println("T - Get current time on traffic light");
+			System.out.println("? - Display menu");
 			System.out.println("E - Exit" );			
 		}
 	
@@ -46,8 +52,8 @@ public class Client {
 		
 		while(!simExit){
 			//if(input.hasNextLine()){
-				System.out.print("input:");
-				userInput = input.nextLine();
+				//System.out.print("input:");
+				userInput = input.next();
 				userInput.toLowerCase();
 				
 				if(userInput.equals("c")&&userMode == true){
@@ -56,12 +62,19 @@ public class Client {
 				
 				else if (userInput.equals("e"))
 					simExit = true;	
+				
 				else if (userInput.equals("t"))
 					tls_system.time();
 				
-			/*}
+				else if (userInput.equals("?")&&userMode==true)
+					 menu(1);
+				
+				else if (userInput.equals("?")&&userMode==false)
+					 menu(2);
+				
+			//}
 			
-			else if(userMode == false){
+			/*else if(userMode == false){
 				randomCar = random.nextBoolean();
 				ew_sensor.carSensor(randomCar);	
 			}*/
@@ -103,6 +116,8 @@ public class Client {
 				userMode = true;
 				simulator(userMode);
 			}
+			else if(userInput.equals("?"))
+				menu(0);
 			
 			else if(userInput.equals("e")){
 				input.close();

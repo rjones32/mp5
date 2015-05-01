@@ -67,8 +67,8 @@ public class TLS extends Thread implements Observer{
 			
 		
 		/*if(time%5==0)
-			System.out.println("Seconds:"+time);*/
-			
+			System.out.println("Seconds:"+time);
+			*/
 		}
 
 	}
