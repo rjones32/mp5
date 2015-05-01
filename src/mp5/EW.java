@@ -1,18 +1,25 @@
 package mp5;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class EW extends Thread implements subject {
 	
-	protected boolean carSensor;
+	protected volatile boolean carSensor;
+	protected volatile boolean running;
 	protected ArrayList<Observer> TLS_System;
+	private SecureRandom random;
 	
 	public EW(){
+		random     = new SecureRandom();
 		carSensor  = false;
 		TLS_System = new ArrayList<Observer>();
 	}
 
+	public void carSensor(boolean newState){carSensor = newState;}
+	
+	public boolean carSensor(){return carSensor;}
+	
 	public void add(Observer o) {
 		TLS_System.add(o);
 	}
@@ -34,23 +41,18 @@ public class EW extends Thread implements subject {
 	}
 	
 	public void run(){
-		int i = 0;
-		while(true){
-			if(carSensor==true){
-				System.out.println("east-west sensor has been triggered");
+		running = true;
+		while(running){		
+			if(carSensor()==true){
+				//System.out.println("east-west sensor has been triggered");
 				notifyObserver();
 				carSensor(false);
-			}
+			}	
 			
-		
+			carSensor(random.nextBoolean());	
 		}
 	}
 	
-	public void carSensor(boolean newState){carSensor = newState;}
+	public void stopRunning(){running = false;}
 	
-	public boolean carSensor(){return carSensor;}
-
-	
-	
-
 }
