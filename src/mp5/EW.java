@@ -9,22 +9,27 @@ public class EW extends Thread implements subject {
 	protected volatile boolean running;
 	protected ArrayList<Observer> TLS_System;
 	private SecureRandom random;
+	private TLS_Clock  stopWatch;
+	private double     time;
 	
+	//Constructor that setup the variable for the thread 
 	public EW(){
 		random     = new SecureRandom();
 		carSensor  = false;
 		TLS_System = new ArrayList<Observer>();
 	}
 
+	//setter for carSensor
 	public void carSensor(boolean newState){carSensor = newState;}
-	
+	//getter for carSensor 
 	public boolean carSensor(){return carSensor;}
 	
+	//method to add observer to EW thread
 	public void add(Observer o) {
 		TLS_System.add(o);
 	}
 
-
+	//method to remove a Observer to EW thread
 	public void remove(Observer o) {
 		int index = TLS_System.lastIndexOf(o);
 		
@@ -32,7 +37,7 @@ public class EW extends Thread implements subject {
 			TLS_System.remove(index);
 	}
 
-	
+	//method to notify the TLS_System that there is a change 
 	public synchronized void notifyObserver() {
 		for(Observer o:TLS_System){
 			o.update(carSensor);
@@ -40,19 +45,30 @@ public class EW extends Thread implements subject {
 		
 	}
 	
+	//method for the thread to start running 
 	public void run(){
 		running = true;
+		stopWatch = new TLS_Clock();
+		stopWatch.start();
+		boolean randomCar;
+		
 		while(running){		
+			time = stopWatch.elapsedTime();
 			if(carSensor()==true){
 				//System.out.println("east-west sensor has been triggered");
 				notifyObserver();
 				carSensor(false);
 			}	
 			
-			carSensor(random.nextBoolean());	
+			if(time%5==0){
+				randomCar = random.nextBoolean();
+				//System.out.println(randomCar);
+				carSensor(randomCar);
+			}
 		}
 	}
 	
+	//method to stop the thread for running 
 	public void stopRunning(){running = false;}
 	
 }
