@@ -55,14 +55,12 @@ public class EW extends Thread implements subject {
 		while(running){		
 			time = stopWatch.elapsedTime();
 			if(carSensor()==true){
-				//System.out.println("east-west sensor has been triggered");
 				notifyObserver();
 				carSensor(false);
 			}	
 			
 			if(time%5==0){
 				randomCar = random.nextBoolean();
-				//System.out.println(randomCar);
 				carSensor(randomCar);
 			}
 		}

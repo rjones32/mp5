@@ -1,6 +1,5 @@
 package mp5;
 
-import java.lang.InterruptedException;
 
 public class TLS extends Thread implements Observer {
 	protected volatile lightState nsState;
@@ -76,9 +75,7 @@ public class TLS extends Thread implements Observer {
 				stopWatch.start();
 			}
 
-			/*
-			 * if(time%5==0) System.out.println("Seconds:"+time);
-			 */
+			
 		}
 
 	}
